@@ -175,7 +175,7 @@ def build_ui(retriever: Retriever, engine: HybridEngine) -> gr.Blocks:
         except RuntimeError as exc:
             history[-1] = {"role": "assistant", "content": f"❌ Generation error: {exc}"}
             yield history, sources_md
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
     def reindex_documents() -> str:
         """Re-ingest and re-embed all documents in ``data/raw/``."""
         try:

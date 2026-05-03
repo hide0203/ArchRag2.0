@@ -1,0 +1,25 @@
+# ArchRAG v2 — Full Dependency List
+# Install with:
+#   Arch Linux:  pip install -r requirements.txt --break-system-packages
+#   Other Linux: pip install -r requirements.txt
+#   Windows:     pip install -r requirements.txt
+
+# ── Core ML / Embeddings ──────────────────────────────────────────────────────
+torch>=2.0.0                        # PyTorch — powers sentence-transformers locally
+sentence-transformers>=2.7.0        # all-MiniLM-L6-v2 embedding model
+transformers>=4.40.0                # HuggingFace model loading (dependency of sentence-transformers)
+huggingface-hub>=0.23.0             # Model downloading and caching from HuggingFace
+
+# ── Vector Database ───────────────────────────────────────────────────────────
+chromadb>=0.5.0                     # Persistent local vector store
+
+# ── Web UI ────────────────────────────────────────────────────────────────────
+gradio>=4.36.0                      # Streaming chat interface at localhost:7860
+
+# ── HTTP / API Communication ──────────────────────────────────────────────────
+requests>=2.31.0                    # Ollama REST API + cloud provider HTTP calls
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+numpy>=1.24.0                       # Required by torch and sentence-transformers
+tqdm>=4.66.0                        # Progress bars during embedding batches
+python-dotenv>=1.0.0                # Optional: load API keys from a .env file
