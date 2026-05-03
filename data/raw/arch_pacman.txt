@@ -1,0 +1,26 @@
+Pacman is the package manager for Arch Linux. It uses binary packages in the tar.zst format.
+
+Installing packages:
+To install a single package or list of packages: pacman -S package_name
+To install without confirmation: pacman -S --noconfirm package_name
+
+Removing packages:
+Remove a package: pacman -R package_name
+Remove with unused dependencies: pacman -Rs package_name
+Remove with config files: pacman -Rns package_name
+
+Upgrading the system:
+Synchronize the package database and upgrade all packages: pacman -Syu
+Always run a full system upgrade before installing new packages.
+
+Searching for packages:
+Search in the database: pacman -Ss keyword
+Search locally installed: pacman -Qs keyword
+Display package information: pacman -Si package_name
+
+Cleaning the cache:
+Pacman stores downloads in /var/cache/pacman/pkg/
+Remove packages not installed: pacman -Sc
+Remove all cached packages: pacman -Scc
+
+AUR helpers like yay or paru can install from the Arch User Repository.

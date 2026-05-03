@@ -13,6 +13,9 @@ Usage::
     python main.py --reindex              # force re-ingest and re-embed
 """
 
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import argparse
 import logging
 import sys
@@ -134,17 +137,6 @@ def build_ui(retriever: Retriever, engine: HybridEngine) -> gr.Blocks:
         backend: str,
         show_sources: bool,
     ) -> Iterator[tuple[list, str]]:
-        """Handle a single chat turn, streaming tokens to the UI.
-
-        Args:
-            query: User's message from the Gradio chat input.
-            history: Gradio chat history list of ``(user, assistant)`` tuples.
-            backend: Selected backend from the radio widget.
-            show_sources: Whether to populate the sources panel.
-
-        Yields:
-            Tuples of ``(updated_history, sources_markdown)``.
-        """
         if not query.strip():
             yield history, "*Enter a question above.*"
             return
@@ -154,31 +146,34 @@ def build_ui(retriever: Retriever, engine: HybridEngine) -> gr.Blocks:
         try:
             result = retriever.retrieve(query)
         except RuntimeError as exc:
-            history.append((query, f"❌ Retrieval error: {exc}"))
+            history.append({"role": "user", "content": query})
+            history.append({"role": "assistant", "content": f"❌ Retrieval error: {exc}"})
             yield history, ""
             return
 
         sources_md = format_sources_markdown(result) if show_sources else ""
 
         if result.is_empty:
-            history.append((
-                query,
-                "I couldn't find relevant information in my knowledge base. "
-                "Try adding more documents to `data/raw/` and re-indexing.",
-            ))
+            history.append({"role": "user", "content": query})
+            history.append({
+                "role": "assistant",
+                "content": "I couldn't find relevant information in my knowledge base. "
+                        "Try adding more documents to `data/raw/` and re-indexing.",
+            })
             yield history, sources_md
             return
 
-        history.append((query, ""))
+        history.append({"role": "user", "content": query})
+        history.append({"role": "assistant", "content": ""})
         partial = ""
 
         try:
             for token in engine.generate(query, result.context):
                 partial += token
-                history[-1] = (query, partial)
+                history[-1] = {"role": "assistant", "content": partial}
                 yield history, sources_md
         except RuntimeError as exc:
-            history[-1] = (query, f"❌ Generation error: {exc}")
+            history[-1] = {"role": "assistant", "content": f"❌ Generation error: {exc}"}
             yield history, sources_md
 
     def reindex_documents() -> str:
@@ -204,20 +199,8 @@ def build_ui(retriever: Retriever, engine: HybridEngine) -> gr.Blocks:
 
     with gr.Blocks(
         title="ArchRAG — Local AI Knowledge Base",
-        theme=gr.themes.Base(
-            primary_hue="slate",
-            secondary_hue="zinc",
-            neutral_hue="zinc",
-            font=[gr.themes.GoogleFont("JetBrains Mono"), "monospace"],
-        ),
-        css="""
-        .gradio-container { max-width: 1440px !important; }
-        footer { display: none !important; }
-        #title { text-align: center; padding: 1rem 0 0.5rem; }
-        #title h1 { font-size: 2.2em; letter-spacing: -0.02em; }
-        #title p  { color: #888; margin-top: 0.25em; font-size: 0.9em; }
-        """,
-    ) as demo:
+        ) as demo:
+
 
         gr.HTML("""
         <div id="title">
@@ -231,9 +214,9 @@ def build_ui(retriever: Retriever, engine: HybridEngine) -> gr.Blocks:
                 chatbot = gr.Chatbot(
                     label="Chat",
                     height=540,
-                    bubble_full_width=False,
                     show_label=False,
                     avatar_images=(None, "🤖"),
+                    layout="bubble",
                 )
                 with gr.Row():
                     query_box = gr.Textbox(
@@ -405,6 +388,12 @@ def main() -> None:
         server_port=config.gradio_port,
         share=False,
         show_error=True,
+        theme=gr.themes.Base(
+            primary_hue="slate",
+            secondary_hue="zinc",
+            neutral_hue="zinc",
+            font=[gr.themes.GoogleFont("JetBrains Mono"), "monospace"],
+        ),
     )
 
 

@@ -1,0 +1,26 @@
+[
+  {
+    "chunk_id": "hyprland_config_chunk_0",
+    "source": "data/raw/hyprland_config.txt",
+    "chunk_index": 0,
+    "total_chunks": 1,
+    "text": "Hyprland is a dynamic tiling Wayland compositor. Configuration: ~/.config/hypr/hyprland.conf Monitor configuration: monitor=name,resolution,position,scale Example: monitor=DP-1,1920x1080@144,0x0,1 Keybindings: bind=SUPER,Return,exec,kitty bind=SUPER,Q,killactive, bind=SUPER,M,exit, bind=SUPER,R,exec,wofi --show drun Moving windows: bind=SUPER SHIFT,1,movetoworkspace,1 bind=SUPER,1,workspace,1 Window rules: windowrule=float,^(pavucontrol)$ windowrulev2=opacity 0.8,class:^(kitty)$ Environment variables for Wayland: env=XCURSOR_SIZE,24 env=QT_QPA_PLATFORM,wayland",
+    "word_count": 37
+  },
+  {
+    "chunk_id": "arch_pacman_chunk_0",
+    "source": "data/raw/arch_pacman.txt",
+    "chunk_index": 0,
+    "total_chunks": 1,
+    "text": "Pacman is the package manager for Arch Linux. It uses binary packages in the tar.zst format. Installing packages: To install a single package or list of packages: pacman -S package_name To install without confirmation: pacman -S --noconfirm package_name Removing packages: Remove a package: pacman -R package_name Remove with unused dependencies: pacman -Rs package_name Remove with config files: pacman -Rns package_name Upgrading the system: Synchronize the package database and upgrade all packages: pacman -Syu Always run a full system upgrade before installing new packages. Searching for packages: Search in the database: pacman -Ss keyword Search locally installed: pacman -Qs keyword Display package information: pacman -Si package_name Cleaning the cache: Pacman stores downloads in /var/cache/pacman/pkg/ Remove packages not installed: pacman -Sc Remove all cached packages: pacman -Scc AUR helpers like yay or paru can install from the Arch User Repository.",
+    "word_count": 138
+  },
+  {
+    "chunk_id": "arch_troubleshooting_chunk_0",
+    "source": "data/raw/arch_troubleshooting.txt",
+    "chunk_index": 0,
+    "total_chunks": 1,
+    "text": "Common Arch Linux issues and solutions: Black screen after boot: Check display manager: systemctl status sddm Check logs: journalctl -xe For NVIDIA: ensure nvidia-drm.modeset=1 is in kernel parameters No sound: Install pipewire: pacman -S pipewire pipewire-pulse wireplumber Start services: systemctl --user enable --now pipewire pipewire-pulse wireplumber Check with: pactl info Network issues: NetworkManager: systemctl enable --now NetworkManager List connections: nmcli connection show Connect to wifi: nmcli device wifi connect SSID password PASSWORD Disk space issues: Check usage: df -h Find large files: du -sh /* 2>/dev/null | sort -rh | head -20 Clean pacman cache: pacman -Sc Remove orphans: pacman -Rns $(pacman -Qtdq)",
+    "word_count": 103
+  }
+]

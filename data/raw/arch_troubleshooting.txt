@@ -1,0 +1,22 @@
+Common Arch Linux issues and solutions:
+
+Black screen after boot:
+Check display manager: systemctl status sddm
+Check logs: journalctl -xe
+For NVIDIA: ensure nvidia-drm.modeset=1 is in kernel parameters
+
+No sound:
+Install pipewire: pacman -S pipewire pipewire-pulse wireplumber
+Start services: systemctl --user enable --now pipewire pipewire-pulse wireplumber
+Check with: pactl info
+
+Network issues:
+NetworkManager: systemctl enable --now NetworkManager
+List connections: nmcli connection show
+Connect to wifi: nmcli device wifi connect SSID password PASSWORD
+
+Disk space issues:
+Check usage: df -h
+Find large files: du -sh /* 2>/dev/null | sort -rh | head -20
+Clean pacman cache: pacman -Sc
+Remove orphans: pacman -Rns $(pacman -Qtdq)
