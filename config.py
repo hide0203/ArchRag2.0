@@ -103,9 +103,9 @@ class CloudLLMConfig:
         base_url: Override the default provider endpoint (optional).
     """
 
-    provider: str = "anthropic"
-    model: str = "claude-haiku-4-5-20251001"
-    api_key_env: str = "ANTHROPIC_API_KEY"
+    provider: str = "groq"                   
+    model: str = "llama-3.1-8b-instant"      
+    api_key_env: str = "GROQ_API_KEY"       
     temperature: float = 0.1
     max_tokens: int = 1024
     timeout: int = 60
