@@ -1,0 +1,24 @@
+# ArchRAG v2 — ThinkPad Requirements (Arch Linux + GNOME)
+# Cloud inference only — no Ollama, no PyTorch, no local LLM tools
+#
+# Install with:
+#   pip install -r requirements-thinkpad.txt --break-system-packages
+
+# ── Embeddings (runs locally on CPU, lightweight) ─────────────────────────────
+sentence-transformers>=2.7.0        # Converts text to vectors (all-MiniLM-L6-v2)
+transformers>=4.40.0                # Required by sentence-transformers
+huggingface-hub>=0.23.0             # Downloads and caches the embedding model
+
+# ── Vector Database ───────────────────────────────────────────────────────────
+chromadb>=0.5.0                     # Local vector store — stores your embeddings on disk
+
+# ── Web UI ────────────────────────────────────────────────────────────────────
+gradio>=4.36.0                      # Chat interface at localhost:7860
+
+# ── HTTP — talks to Groq/Anthropic/OpenAI API ─────────────────────────────────
+requests>=2.31.0                    # Cloud API calls (Groq, Anthropic, OpenAI)
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+numpy>=1.24.0                       # Required by sentence-transformers
+tqdm>=4.66.0                        # Progress bars during indexing
+python-dotenv>=1.0.0                # Load GROQ_API_KEY from a .env file
