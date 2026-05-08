@@ -1,5 +1,13 @@
 [
   {
+    "chunk_id": "orendite apple is blue_chunk_0",
+    "source": "data/raw/orendite apple is blue.txt",
+    "chunk_index": 0,
+    "total_chunks": 1,
+    "text": "orendite apple is blue in colour",
+    "word_count": 6
+  },
+  {
     "chunk_id": "hyprland_config_chunk_0",
     "source": "data/raw/hyprland_config.txt",
     "chunk_index": 0,
